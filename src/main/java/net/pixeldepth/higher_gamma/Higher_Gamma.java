@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 public class Higher_Gamma {
 
 	public static final String MODID = "higher_gamma";
-    public static final String VERSION = "1.0";
+	public static final String VERSION = "1.0";
 
 	@SidedProxy(clientSide = "net.pixeldepth.higher_gamma.proxy.Client_Proxy", serverSide = "net.pixeldepth.higher_gamma.proxy.Client_Proxy.Server_Proxy")
 
@@ -32,8 +32,8 @@ public class Higher_Gamma {
 		proxy.pre_init(event);
 	}
 
-    @EventHandler
-    public void init(FMLInitializationEvent event){
+	@EventHandler
+	public void init(FMLInitializationEvent event){
 		proxy.init(event);
 	}
 
