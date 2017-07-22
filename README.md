@@ -1,8 +1,8 @@
 # Forge-Higher-Gamma
 
-This is a Minecraft mod for Forge that allows you to toggle your gamma (default key "G").  This option can be changed in the options.txt file in your Minecraft folder, but it requires a client restart.  I couldn't find a mod for Forge, only LiteLoader.
+This is a Minecraft mod for Forge that allows you to toggle your gamma (default key "G").  
 
-Gamma caps out at 1 by default, this mod will set the gamma much higher so you can see in the dark.  It's a toggle, so you can switch back to look at your pretty builds without needing to restart your client after editing the options file.
+This option can be changed in the options.txt file in your Minecraft folder, but it requires a client restart because once you change your brightness in the UI, it caps out at 1.  This is a pain, and I didn't want to use LiteLoader, so I decided I would write my own as I change the gamma on the fly when building.
 
 Before:
 
