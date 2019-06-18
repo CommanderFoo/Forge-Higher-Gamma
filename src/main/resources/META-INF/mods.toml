@@ -1,0 +1,11 @@
+modLoader="javafml" #mandatory
+loaderVersion="[26,)" #mandatory (26 is current forge version)
+issueTrackerURL="https://github.com/PopThosePringles/Forge-Higher-Gamma/issues" #optional
+[[mods]] #mandatory
+modId="higher_gamma" #mandatory
+version="1.0.1" #mandatory
+displayName="Higher Gamma" #mandatory
+authors="PopThosePringles" #optional
+description='''
+Adds keyboard shortcut to switch gamma so you can see in the dark.  Usually you have to modify a file and reload MC, but sometimes I wanted to see what a build would look like without high gamma.
+'''

@@ -1,40 +1,77 @@
 package net.pixeldepth.higher_gamma;
 
+import net.minecraft.client.GameSettings;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.pixeldepth.higher_gamma.client.Key_Bindings;
-import net.pixeldepth.higher_gamma.client.Key_Input_Handler;
-import net.pixeldepth.higher_gamma.proxy.Common_Proxy;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.glfw.GLFW;
 
-@Mod(modid = Higher_Gamma.MODID, name = "Higher Gammar", version = Higher_Gamma.VERSION)
-
+@Mod(Higher_Gamma.MODID)
 public class Higher_Gamma {
 
 	public static final String MODID = "higher_gamma";
-	public static final String VERSION = "1.0";
 
-	@SidedProxy(clientSide = "net.pixeldepth.higher_gamma.proxy.Client_Proxy", serverSide = "net.pixeldepth.higher_gamma.proxy.Client_Proxy.Server_Proxy")
+	private KeyBinding toggle;
+	private KeyBinding increase;
+	private KeyBinding decrease;
 
-	public static Common_Proxy proxy;
-
-	@Mod.Instance
 	public static Higher_Gamma instance;
 
-	public static Logger logger;
-
-	@EventHandler
-	public void pre_init(FMLPreInitializationEvent event){
-		proxy.pre_init(event);
+	public Higher_Gamma(){
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this :: setup);
 	}
 
-	@EventHandler
-	public void init(FMLInitializationEvent event){
-		proxy.init(event);
+	private void setup(final FMLClientSetupEvent event){
+		this.toggle = new KeyBinding("Toggle", GLFW.GLFW_KEY_G, "Higher Gamma");
+		this.increase = new KeyBinding("Increase", GLFW.GLFW_KEY_RIGHT_BRACKET, "Higher Gamma");
+		this.decrease = new KeyBinding("Decrease", GLFW.GLFW_KEY_LEFT_BRACKET, "Higher Gamma");
+
+		ClientRegistry.registerKeyBinding(this.toggle);
+		ClientRegistry.registerKeyBinding(this.increase);
+		ClientRegistry.registerKeyBinding(this.decrease);
+
+		MinecraftForge.EVENT_BUS.register(this);
+
+		instance = this;
 	}
 
+	@SubscribeEvent
+	public void onKeyInputEvent(InputEvent.KeyInputEvent event){
+
+		GameSettings settings = Minecraft.getInstance().gameSettings;
+
+		double gamma = settings.gamma;
+
+		if(this.toggle.isPressed()){
+			if(gamma <= 1){
+				settings.gamma = 15;
+			} else {
+				settings.gamma = 1;
+			}
+		}
+
+		if(this.increase.isPressed()){
+			if(settings.gamma < 15){
+				settings.gamma += 1;
+			}
+		}
+
+		if(this.decrease.isPressed()){
+			settings.gamma -= 1;
+
+			if(settings.gamma < 0){
+				settings.gamma = 0;
+			}
+		}
+
+		System.out.println(settings.gamma);
+	}
 }
